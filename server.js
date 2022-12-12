@@ -1,36 +1,30 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const util = require('util');
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 const uuid = require('./helpers/uuid');
 
+app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
 
 // GET route for index
-app.get('/', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
+app.get('/notes', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
-// GET route for db
-app.get('/db', (req, res) =>
-  res.sendFile(path.join(__dirname, '/db/db'))
-);
+const readFromFile = util.promisify(fs.readFile);
 
-// GET request for note
-app.get('/api/db', (req, res) => {
-
-// Send a message to the client
-  res.json(`${req.method} request received to get notes`);
-  console.info(`${req.method} request received to get notes`);
+// GET route to retrieve all notes
+app.get('/api/notes', (req, res) => {
+  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
 // POST request to add a note
-app.post('/api/db', (req, res) => {
-
+app.post('/api/notes', (req, res) => {
   console.info(`${req.method} request received to add a notes`);
 
   // Destructuring assignment for the items in req.body
@@ -40,7 +34,7 @@ app.post('/api/db', (req, res) => {
     const newNote = {
       title,
       text,
-      note_id: uuid(),
+      id: uuid(),
     };
 
     fs.readFile('./db/db.json', `utf-8`, (err, data) => {
@@ -54,7 +48,7 @@ app.post('/api/db', (req, res) => {
           err
             ? console.error(err)
             : console.log(
-              `Review for ${newNote.title} has been written to JSON file`
+              `Notes for ${newNote.title} has been written to JSON file`
             )
         );
       }
@@ -72,6 +66,10 @@ app.post('/api/db', (req, res) => {
   }
 });
 
+// return index.html file
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '/public/index.html'))
+);
 
 app.listen(PORT, () =>
   console.log(`Express server listening on port http://localhost:${PORT} `)
