@@ -4,7 +4,7 @@
  
 
   ## Description
- This application allows a user to write and save notes in a browser.  The saved notes can be recalled 
+ This application allows a user to write and save notes.  The saved notes can be recalled by selecting the note.  This application utilizes express.
 
 
   ## Table of Contents
@@ -20,7 +20,7 @@
 
   ## Usage
   GitHub Repository: https://github.com/EricKim86/note-taker <br/>
-  Deployed Site:  <br/>
+  Deployed Site: https://note-taker-app-ek.herokuapp.com/ <br/>
   Note Taker: <br/>
   <img src="https://github.com/EricKim86/note-taker/blob/main/assets/images/html-example.png?raw=true" width="600"/><br/>
 
