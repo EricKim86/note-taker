@@ -66,6 +66,33 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
+// delete notes
+// app.delete('/api/notes/:id', (req, res) => {
+//   console.info(`${req.method} request received to add a notes`);
+  
+//   const noteId = req.params.id;
+
+//   fs.readFile('./db/db.json', 'utf-8', (err, data) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       const notes = JSON.parse(data);
+//       const index = notes.findIndex(noteToDelete = noteToDelete.id = noteId);
+//       notes.splice(index, 1);
+
+//       fs.writeFile(`./db/db.json`, JSON.stringify(notes, null, `\t`), (err) =>
+//         err
+//           ? console.error(err)
+//           : console.log(
+//             `Notes for ${newNote.title} has been written to JSON file`
+//           )
+//       );
+//     }
+
+//   })
+
+// })
+
 // return index.html file
 app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '/public/index.html'))
